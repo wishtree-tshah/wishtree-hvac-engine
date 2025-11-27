@@ -71,7 +71,6 @@ body {
     align-items: center;
     justify-content: center;
     padding: 0;
-    /* Removed padding for full layout */
     overflow: hidden;
 }
 
@@ -85,6 +84,7 @@ body {
 #intro-screen {
     padding: 2rem;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .intro-card {
@@ -259,6 +259,7 @@ body {
     font-family: var(--font-mono);
     font-size: 0.95rem;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     color: var(--text-main);
     display: flex;
     flex-direction: column;
@@ -336,7 +337,6 @@ body {
     flex-direction: column;
     border-right: 1px solid var(--glass-border);
     background: rgba(15, 23, 42, 0.6);
-    /* Slightly darker */
     z-index: 20;
 }
 
@@ -517,9 +517,9 @@ body {
 .view-section {
     flex: 1;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     padding: 2rem;
     display: none;
-    /* Hidden by default */
     animation: fadeIn 0.4s ease-out;
 }
 
@@ -527,7 +527,7 @@ body {
     display: block;
 }
 
-/* Dashboard Grid (Reused & Adapted) */
+/* Dashboard Grid */
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -571,6 +571,7 @@ body {
     font-size: 1.8rem;
     font-weight: 700;
     font-family: var(--font-heading);
+    transition: opacity 0.3s ease;
 }
 
 .kpi-value.warning {
@@ -628,6 +629,14 @@ body {
 .panel-header h3 {
     font-size: 1rem;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.panel-actions {
+    display: flex;
+    gap: 0.5rem;
 }
 
 .icon-btn {
@@ -669,6 +678,7 @@ body {
 .activity-list {
     flex: 1;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
@@ -701,6 +711,10 @@ body {
 /* Data Health Styles */
 .wide-kpi {
     grid-column: span 2;
+}
+
+.wide {
+    grid-column: span 4;
 }
 
 .progress-bar-thick {
@@ -763,13 +777,113 @@ body {
     color: var(--success);
 }
 
+/* Supersession Chain Integrity Styles */
+.info-badge {
+    background: rgba(59, 130, 246, 0.2);
+    color: var(--primary);
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.supersession-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.metric-box {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--glass-border);
+}
+
+.metric-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.metric-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    margin-bottom: 0.3rem;
+}
+
+.metric-value.success {
+    color: var(--success);
+}
+
+.metric-value.warning {
+    color: var(--warning);
+}
+
+.metric-value.danger {
+    color: var(--danger);
+}
+
+.metric-detail {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.chain-examples {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+.chain-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+}
+
+.chain-status {
+    font-size: 1.2rem;
+}
+
+.chain-status.success {
+    color: var(--success);
+}
+
+.chain-status.warning {
+    color: var(--warning);
+}
+
+.chain-status.danger {
+    color: var(--danger);
+}
+
+.chain-path {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-main);
+}
+
+.chain-path strong {
+    color: var(--danger);
+    font-weight: 700;
+}
+
 /* Map Styles */
 .map-container {
     width: 100%;
     height: 600px;
     position: relative;
     background: #0f172a;
-    /* Dark ocean color */
     overflow: hidden;
 }
 
@@ -893,5 +1007,23 @@ body {
         grid-column: span 2;
         grid-row: auto;
         height: 300px;
+    }
+
+    .supersession-metrics {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .supersession-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .kpi-strip {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        width: 200px;
     }
 }

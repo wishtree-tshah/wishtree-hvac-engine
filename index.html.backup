@@ -246,55 +246,7 @@
                                     <span>Branch: 100%</span>
                                 </div>
                             </div>
-
-                            <!-- Supersession Chain Integrity Widget -->
-                            <div class="kpi-card glass-panel wide-kpi">
-                                <div class="panel-header">
-                                    <h3><i class="fa-solid fa-link"></i> Supersession Chain Integrity</h3>
-                                    <span class="info-badge">HVAC Critical</span>
-                                </div>
-                                <div class="supersession-metrics">
-                                    <div class="metric-box">
-                                        <div class="metric-label">Chain Health</div>
-                                        <div class="metric-value success">96.8%</div>
-                                        <div class="metric-detail">13,742 / 14,205 parts</div>
-                                    </div>
-                                    <div class="metric-box">
-                                        <div class="metric-label">Broken Chains</div>
-                                        <div class="metric-value warning">127</div>
-                                        <div class="metric-detail">Needs manual review</div>
-                                    </div>
-                                    <div class="metric-box">
-                                        <div class="metric-label">Orphaned Parts</div>
-                                        <div class="metric-value danger">336</div>
-                                        <div class="metric-detail">No supersession path</div>
-                                    </div>
-                                    <div class="metric-box">
-                                        <div class="metric-label">Avg Chain Depth</div>
-                                        <div class="metric-value">2.4</div>
-                                        <div class="metric-detail">Max: 8 levels</div>
-                                    </div>
-                                </div>
-                                <div class="chain-examples">
-                                    <div class="chain-item">
-                                        <span class="chain-status success"><i
-                                                class="fa-solid fa-check-circle"></i></span>
-                                        <span class="chain-path">HC-2801 → HC-2801A → HC-2801B (Current)</span>
-                                    </div>
-                                    <div class="chain-item">
-                                        <span class="chain-status warning"><i
-                                                class="fa-solid fa-triangle-exclamation"></i></span>
-                                        <span class="chain-path">COMP-9921 → COMP-9921X →
-                                            <strong>[BROKEN]</strong></span>
-                                    </div>
-                                    <div class="chain-item">
-                                        <span class="chain-status danger"><i
-                                                class="fa-solid fa-circle-xmark"></i></span>
-                                        <span class="chain-path">MTR-4450 → <strong>[NO SUCCESSOR]</strong></span>
-                                    </div>
-                                </div>
-                            </div>
-
+                            <!-- More Data Health Widgets would go here -->
                             <div class="glass-panel wide">
                                 <div class="panel-header">
                                     <h3>Data Integrity Issues</h3>
