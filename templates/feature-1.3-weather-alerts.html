@@ -1,0 +1,307 @@
+<!-- ============================================ -->
+<!-- FEATURE 1.3: WEATHER-DRIVEN DEMAND SPIKE ALERTS -->
+<!-- Location: Insert into #view-demand-ai div (after feature 1.2) -->
+<!-- ============================================ -->
+
+<div class="dashboard-grid" style="margin-top: 2rem;">
+    <!-- Weather Alerts Header -->
+    <div class="glass-panel wide" style="grid-column: span 4;">
+        <div class="panel-header">
+            <h3><i class="fa-solid fa-cloud-sun"></i> Weather-Driven Demand Alerts</h3>
+            <span class="live-badge">ACTIVE</span>
+        </div>
+    </div>
+
+    <!-- Active Weather Alerts -->
+    <div class="glass-panel wide" style="grid-column: span 4;">
+        <div class="weather-alerts">
+            <!-- Alert 1: Southeast Heatwave -->
+            <div class="weather-alert critical">
+                <div class="alert-header">
+                    <i class="fa-solid fa-temperature-high"></i>
+                    <span class="alert-title">Heatwave Alert: Southeast Region</span>
+                    <span class="alert-date">Jun 10-20, 2025</span>
+                </div>
+                <div class="alert-body">
+                    <div class="alert-metrics">
+                        <div class="alert-metric">
+                            <span class="label">Heat Index</span>
+                            <span class="value danger">108°F</span>
+                        </div>
+                        <div class="alert-metric">
+                            <span class="label">Duration</span>
+                            <span class="value">10 days</span>
+                        </div>
+                        <div class="alert-metric">
+                            <span class="label">Expected Spike</span>
+                            <span class="value warning">+32%</span>
+                        </div>
+                    </div>
+                    <div class="alert-details">
+                        <div class="detail-row">
+                            <strong>Affected Regions:</strong> Atlanta, Miami, Charlotte
+                        </div>
+                        <div class="detail-row">
+                            <strong>Critical SKUs:</strong> 3-5T Condensers, Compressors, Capacitors, Contactors
+                        </div>
+                        <div class="detail-row recommendation">
+                            <i class="fa-solid fa-lightbulb"></i>
+                            <strong>Recommendation:</strong> Pre-build 120 additional compressor units.
+                            Expedite Copeland order. Alert top 15 contractors of incoming demand surge.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alert 2: Texas Heatwave -->
+            <div class="weather-alert critical">
+                <div class="alert-header">
+                    <i class="fa-solid fa-temperature-high"></i>
+                    <span class="alert-title">Extreme Heat: Texas</span>
+                    <span class="alert-date">Jun 12-24, 2025</span>
+                </div>
+                <div class="alert-body">
+                    <div class="alert-metrics">
+                        <div class="alert-metric">
+                            <span class="label">Heat Index</span>
+                            <span class="value danger">105°F</span>
+                        </div>
+                        <div class="alert-metric">
+                            <span class="label">Duration</span>
+                            <span class="value">12 days</span>
+                        </div>
+                        <div class="alert-metric">
+                            <span class="label">Expected Spike</span>
+                            <span class="value danger">+38%</span>
+                        </div>
+                    </div>
+                    <div class="alert-details">
+                        <div class="detail-row">
+                            <strong>Affected Regions:</strong> Houston, Dallas, Austin
+                        </div>
+                        <div class="detail-row">
+                            <strong>Critical SKUs:</strong> Condensers, Motors, Run Capacitors
+                        </div>
+                        <div class="detail-row recommendation">
+                            <i class="fa-solid fa-lightbulb"></i>
+                            <strong>Recommendation:</strong> Emergency stock transfer from Phoenix.
+                            Increase safety stock by 40%. Activate on-call supplier agreements.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alert 3: Midwest Cold Snap (Medium Severity) -->
+            <div class="weather-alert medium">
+                <div class="alert-header">
+                    <i class="fa-solid fa-snowflake"></i>
+                    <span class="alert-title">Cold Snap: Midwest</span>
+                    <span class="alert-date">Jan 15-20, 2025</span>
+                </div>
+                <div class="alert-body">
+                    <div class="alert-metrics">
+                        <div class="alert-metric">
+                            <span class="label">Cold Index</span>
+                            <span class="value">-15°F</span>
+                        </div>
+                        <div class="alert-metric">
+                            <span class="label">Duration</span>
+                            <span class="value">5 days</span>
+                        </div>
+                        <div class="alert-metric">
+                            <span class="label">Expected Spike</span>
+                            <span class="value">+18%</span>
+                        </div>
+                    </div>
+                    <div class="alert-details">
+                        <div class="detail-row">
+                            <strong>Affected Regions:</strong> Chicago
+                        </div>
+                        <div class="detail-row">
+                            <strong>Critical SKUs:</strong> Igniters, Gas Valves, Flame Sensors
+                        </div>
+                        <div class="detail-row recommendation">
+                            <i class="fa-solid fa-lightbulb"></i>
+                            <strong>Recommendation:</strong> Monitor furnace part inventory.
+                            Typical winter spike pattern - no emergency action needed.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Weather Impact Chart -->
+    <div class="chart-panel glass-panel wide" style="grid-column: span 4;">
+        <div class="panel-header">
+            <h3>Demand Forecast with Weather Impact</h3>
+            <div class="toggle-group">
+                <button class="toggle-btn active" data-weather="off">Normal Forecast</button>
+                <button class="toggle-btn" data-weather="on">With Weather Spike</button>
+            </div>
+        </div>
+        <div class="chart-container">
+            <canvas id="weatherImpactChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- CSS for this feature (add to style.css) -->
+<style>
+    .weather-alerts {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .weather-alert {
+        padding: 1.5rem;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        border-left: 4px solid var(--warning);
+    }
+
+    .weather-alert.critical {
+        border-left-color: var(--danger);
+        background: rgba(239, 68, 68, 0.05);
+    }
+
+    .weather-alert.medium {
+        border-left-color: var(--warning);
+    }
+
+    .alert-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--glass-border);
+    }
+
+    .alert-header i {
+        font-size: 1.5rem;
+        color: var(--danger);
+    }
+
+    .alert-title {
+        font-weight: 600;
+        font-size: 1.1rem;
+        flex: 1;
+    }
+
+    .alert-date {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+
+    .alert-metrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .alert-metric {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+
+    .alert-metric .label {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+    }
+
+    .alert-metric .value {
+        font-size: 1.3rem;
+        font-weight: 700;
+    }
+
+    .alert-metric .value.danger {
+        color: var(--danger);
+    }
+
+    .alert-metric .value.warning {
+        color: var(--warning);
+    }
+
+    .alert-details {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .detail-row {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .detail-row.recommendation {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 0.8rem;
+        background: rgba(59, 130, 246, 0.1);
+        border-radius: 4px;
+        margin-top: 0.5rem;
+    }
+
+    .detail-row.recommendation i {
+        color: var(--primary);
+        margin-top: 0.2rem;
+    }
+</style>
+
+<!-- JavaScript for this feature (add to app.js) -->
+<script>
+    // Initialize Weather Impact Chart
+    function initWeatherImpactChart() {
+        const ctx = document.getElementById('weatherImpactChart');
+        if (!ctx) return;
+
+        const months = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
+        const normalDemand = [5600, 6200, 6800, 7200, 7000, 6400];
+        const weatherDemand = [5600, 6200, 9200, 10500, 9800, 6400]; // Spike in Jun-Jul
+
+        new Chart(ctx.getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: months,
+                datasets: [
+                    {
+                        label: 'Normal Forecast',
+                        data: normalDemand,
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'With Weather Spike',
+                        data: weatherDemand,
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        borderDash: [5, 5],
+                        tension: 0.4,
+                        fill: false,
+                        hidden: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { labels: { color: '#94a3b8' } } },
+                scales: {
+                    y: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { color: '#94a3b8' }
+                    },
+                    x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                }
+            }
+        });
+    }
+</script>

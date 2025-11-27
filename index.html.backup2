@@ -379,7 +379,6 @@
     </div>
 
     <script src="js/data.js"></script>
-    <script src="js/extended-data.js"></script>
     <script src="js/app.js"></script>
 </body>
 
