@@ -1,0 +1,261 @@
+/* Network Map Enhancements - Weather Overlay & Transfer Corridors */
+
+/* Map Container Panels */
+.map-container-panel {
+    grid-column: span 3;
+    display: flex;
+    flex-direction: column;
+}
+
+.transfer-corridors-panel {
+    grid-column: span 1;
+}
+
+/* Map Controls Bar */
+.map-controls-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.map-toggles {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Toggle Switch Component */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 42px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: 0.3s;
+    border-radius: 24px;
+    border: 1px solid var(--glass-border);
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background-color: var(--text-muted);
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+input:checked+.toggle-slider {
+    background-color: rgba(59, 130, 246, 0.3);
+    border-color: var(--primary);
+}
+
+input:checked+.toggle-slider:before {
+    transform: translateX(18px);
+    background-color: var(--primary);
+}
+
+.toggle-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    user-select: none;
+}
+
+/* Map Overlay Info */
+.map-overlay-info {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    z-index: 5;
+    background: rgba(15, 23, 42, 0.9);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* Weather Overlay Info */
+.weather-overlay-info {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--glass-border);
+}
+
+.weather-zone-item {
+    margin-bottom: 0.75rem;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+.weather-zone-item:last-child {
+    margin-bottom: 0;
+}
+
+.weather-zone-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 0.25rem;
+}
+
+.weather-zone-type {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.weather-zone-type.heatwave {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--danger);
+}
+
+.weather-zone-type.watch {
+    background: rgba(245, 158, 11, 0.2);
+    color: var(--warning);
+}
+
+.weather-zone-details {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* Transfer Corridor Lines (SVG) */
+.transfer-line {
+    stroke-opacity: 0.6;
+    transition: stroke-opacity 0.3s, stroke-width 0.3s;
+}
+
+.transfer-line:hover {
+    stroke-opacity: 1;
+}
+
+.transfer-line.normal {
+    stroke: var(--success);
+}
+
+.transfer-line.slow {
+    stroke: var(--warning);
+}
+
+.transfer-line.delayed {
+    stroke: var(--danger);
+}
+
+.transfer-line.emergency {
+    stroke: var(--danger);
+    stroke-dasharray: 2, 2;
+    animation: dashMove 1s linear infinite;
+}
+
+@keyframes dashMove {
+    to {
+        stroke-dashoffset: -4;
+    }
+}
+
+/* Transfer Table */
+.transfer-table {
+    font-size: 0.85rem;
+}
+
+.transfer-table th {
+    font-size: 0.75rem;
+    padding: 0.75rem 0.5rem;
+}
+
+.transfer-table td {
+    padding: 0.75rem 0.5rem;
+}
+
+.transfer-route {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+}
+
+.transfer-status-badge {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.transfer-status-badge.normal {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--success);
+}
+
+.transfer-status-badge.slow {
+    background: rgba(245, 158, 11, 0.2);
+    color: var(--warning);
+}
+
+.transfer-status-badge.delayed {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--danger);
+}
+
+.transfer-products {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Weather Overlay Zones on Map (SVG) */
+.weather-zone-overlay {
+    fill: var(--danger);
+    fill-opacity: 0.15;
+    stroke: var(--danger);
+    stroke-width: 0.5;
+    stroke-opacity: 0.4;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+    .map-container-panel {
+        grid-column: span 4;
+    }
+
+    .transfer-corridors-panel {
+        grid-column: span 4;
+    }
+}
+
+@media (max-width: 768px) {
+    .map-toggles {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .transfer-table th,
+    .transfer-table td {
+        padding: 0.5rem 0.25rem;
+        font-size: 0.7rem;
+    }
+}

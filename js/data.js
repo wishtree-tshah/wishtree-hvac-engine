@@ -269,5 +269,140 @@ const SIMULATION_DATA = {
         oct: 0.95,  // Shoulder season
         nov: 0.80,  // Low
         dec: 0.75   // Low (holiday slow)
-    }
+    },
+
+    // Weather Overlay Data (Realistic NOAA-style zones)
+    weatherZones: {
+        normal: [
+            {
+                name: "Southeast",
+                regions: ["houston", "dallas", "austin", "miami", "atlanta"],
+                type: "normal",
+                temp: "85-95°F",
+                impact: "Seasonal demand levels",
+                demandChange: "+0%"
+            }
+        ],
+        weather: [
+            {
+                name: "Southeast Heatwave",
+                regions: ["houston", "dallas", "austin", "miami", "atlanta"],
+                type: "heatwave",
+                temp: "102-108°F",
+                humidity: "65-80%",
+                duration: "Jun 10-18",
+                impact: "Compressors +340%, Capacitors +280%, Contactors +195%",
+                demandChange: "+35%"
+            },
+            {
+                name: "Charlotte Warning",
+                regions: ["charlotte"],
+                type: "watch",
+                temp: "98-102°F",
+                impact: "Edge of heatwave zone - moderate demand increase",
+                demandChange: "+15%"
+            }
+        ]
+    },
+
+    // Transfer Corridor Data (Inter-branch inventory transfers)
+    transferCorridors: [
+        // Major DC to Branch Routes
+        {
+            origin: "houston",
+            destination: "dallas",
+            monthlyUnits: 285,
+            avgDays: 2.1,
+            productMix: ["3-5T Condensers", "Compressors", "Coils"],
+            performance: "normal", // green
+            volume: "high"
+        },
+        {
+            origin: "houston",
+            destination: "austin",
+            monthlyUnits: 145,
+            avgDays: 1.8,
+            productMix: ["Compressors", "Motors", "Parts"],
+            performance: "normal",
+            volume: "medium"
+        },
+        {
+            origin: "atlanta",
+            destination: "charlotte",
+            monthlyUnits: 198,
+            avgDays: 2.5,
+            productMix: ["Coils", "Air Handlers", "Condensers"],
+            performance: "normal",
+            volume: "medium"
+        },
+        {
+            origin: "atlanta",
+            destination: "miami",
+            monthlyUnits: 220,
+            avgDays: 3.2,
+            productMix: ["Compressors", "Condensers", "Parts"],
+            performance: "slow", // amber
+            volume: "high"
+        },
+        {
+            origin: "phoenix",
+            destination: "houston",
+            monthlyUnits: 95,
+            avgDays: 4.8,
+            productMix: ["Specialty Parts", "Motors", "Controls"],
+            performance: "normal",
+            volume: "low"
+        },
+        {
+            origin: "chicago",
+            destination: "charlotte",
+            monthlyUnits: 78,
+            avgDays: 3.5,
+            productMix: ["Furnace Parts", "Igniters", "Motors"],
+            performance: "normal",
+            volume: "low"
+        },
+
+        // Weather Scenario: Emergency Transfers
+        {
+            origin: "phoenix",
+            destination: "houston",
+            monthlyUnits: 320, // Emergency surge
+            avgDays: 1.2, // Expedited
+            productMix: ["Compressors", "Capacitors", "Contactors"],
+            performance: "delayed", // red (high cost, urgent)
+            volume: "emergency",
+            scenario: "weather" // Only show in weather scenario
+        },
+        {
+            origin: "chicago",
+            destination: "atlanta",
+            monthlyUnits: 180,
+            avgDays: 2.8,
+            productMix: ["Compressors", "Coils", "Parts"],
+            performance: "slow",
+            volume: "medium",
+            scenario: "weather"
+        },
+        {
+            origin: "phoenix",
+            destination: "dallas",
+            monthlyUnits: 160,
+            avgDays: 1.5,
+            productMix: ["Compressors", "Condensers"],
+            performance: "delayed",
+            volume: "high",
+            scenario: "weather"
+        },
+        {
+            origin: "houston",
+            destination: "austin",
+            monthlyUnits: 85,
+            avgDays: 4.2, // Delayed due to Houston depletion
+            productMix: ["Limited Stock", "Parts Only"],
+            performance: "delayed",
+            volume: "low",
+            scenario: "weather"
+        }
+    ]
 };
