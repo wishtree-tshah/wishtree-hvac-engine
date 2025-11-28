@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Wishtree Data Integrity & Demand Planning Engine</title>
     <link rel="stylesheet" href="css/network-map.css">
-    <link rel="stylesheet" href="css/inventory-supplier.css">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -398,66 +397,139 @@
                             </div>
                         </div>
                     </div>
-                    <!-- View: Inventory Optimization -->
-                    <div id="view-inventory" class="view-section">
-                        <div class="dashboard-grid">
-                            <!-- Pre-Season Build -->
-                            <div class="glass-panel wide">
-                                <div class="panel-header">
-                                    <h3><i class="fa-solid fa-warehouse"></i> Pre-Season Build Status</h3>
-                                    <span class="badge">Cooling Season</span>
-                                </div>
-                                <div id="preSeasonGrid" class="preseason-grid"></div>
-                            </div>
 
-                            <!-- Hub-Spoke -->
+                    <!-- View: Demand AI -->
+                    <div id="view-demand-ai" class="view-section">
+                        <div class="dashboard-grid">
                             <div class="glass-panel wide">
                                 <div class="panel-header">
-                                    <h3><i class="fa-solid fa-network-wired"></i> Hub-and-Spoke Optimization</h3>
+                                    <h3><i class="fa-solid fa-brain"></i> Demand Forecasting Engine</h3>
+                                    <span class="badge success">Model: Ensemble-XGBoost</span>
                                 </div>
-                                <div class="hub-spoke-container">
-                                    <div id="hubSpokeSvg"></div>
+                                <div class="kpi-row" style="display: flex; gap: 2rem; margin-bottom: 1.5rem;">
                                     <div>
-                                        <h4>Suggested Rebalancing</h4>
-                                        <table class="data-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Route</th>
-                                                    <th>Units</th>
-                                                    <th>Product</th>
-                                                    <th>Reason</th>
-                                                    <th>Priority</th>
-                                                    <th>ETA</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="rebalancingTable"></tbody>
-                                        </table>
+                                        <div class="text-secondary">Forecast Accuracy</div>
+                                        <div class="text-xl">94.2% <span class="success text-sm"><i
+                                                    class="fa-solid fa-arrow-up"></i> 1.2%</span></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-secondary">Bias</div>
+                                        <div class="text-xl">+2.1% <span class="text-secondary text-sm">Stable</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="text-secondary">Confidence</div>
+                                        <div class="text-xl">95%</div>
+                                    </div>
+                                </div>
+                                <div
+                                    style="height: 250px; background: rgba(0,0,0,0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px dashed var(--glass-border);">
+                                    <div style="text-align: center; opacity: 0.7;">
+                                        <i class="fa-solid fa-chart-area fa-3x"
+                                            style="margin-bottom: 1rem; color: var(--primary);"></i>
+                                        <p>Advanced Demand Model Visualization</p>
+                                        <small>Processing real-time signals...</small>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Dead Stock -->
+                            <div class="glass-panel">
+                                <div class="panel-header">
+                                    <h3>Demand Drivers</h3>
+                                </div>
+                                <div class="activity-list">
+                                    <div class="activity-item">
+                                        <span class="activity-time"><i
+                                                class="fa-solid fa-temperature-high warning"></i></span>
+                                        <span class="activity-text"><strong>Heatwave (SE)</strong><br>+35% Demand
+                                            Impact</span>
+                                    </div>
+                                    <div class="activity-item">
+                                        <span class="activity-time"><i
+                                                class="fa-solid fa-calendar-check success"></i></span>
+                                        <span class="activity-text"><strong>Seasonality</strong><br>+15% June
+                                            Baseline</span>
+                                    </div>
+                                    <div class="activity-item">
+                                        <span class="activity-time"><i class="fa-solid fa-building"></i></span>
+                                        <span class="activity-text"><strong>Housing Starts</strong><br>+4% Regional
+                                            Growth</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- View: Inventory -->
+                    <div id="view-inventory" class="view-section">
+                        <div class="dashboard-grid">
                             <div class="glass-panel wide">
                                 <div class="panel-header">
-                                    <h3><i class="fa-solid fa-skull-crossbones"></i> Dead Stock Risk Tracker</h3>
+                                    <h3><i class="fa-solid fa-boxes-stacked"></i> Inventory Optimization</h3>
                                 </div>
-                                <div id="deadStockSummary"></div>
+                                <div class="kpi-row"
+                                    style="display: flex; gap: 3rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--glass-border);">
+                                    <div>
+                                        <div class="text-secondary">Total Value</div>
+                                        <div class="text-xl">$14.2M</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-secondary">Turnover Rate</div>
+                                        <div class="text-xl">4.2x</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-secondary">Days on Hand</div>
+                                        <div class="text-xl">45 Days</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-secondary">Service Level</div>
+                                        <div class="text-xl success">98.5%</div>
+                                    </div>
+                                </div>
                                 <table class="data-table">
                                     <thead>
                                         <tr>
-                                            <th>Branch</th>
                                             <th>SKU</th>
                                             <th>Description</th>
-                                            <th>Refrigerant</th>
-                                            <th>Last Sale</th>
-                                            <th>Months</th>
-                                            <th>Units</th>
-                                            <th>Value</th>
-                                            <th>Action</th>
-                                            <th>Reason</th>
+                                            <th>Stock Level</th>
+                                            <th>Status</th>
+                                            <th>Recommendation</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="deadStockTable"></tbody>
+                                    <tbody>
+                                        <tr>
+                                            <td>CP-5502</td>
+                                            <td>Compressor 5T Scroll</td>
+                                            <td>12 Units</td>
+                                            <td><span class="badge danger">Critical Low</span></td>
+                                            <td><button
+                                                    style="background: var(--primary); border: none; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer;">Expedite</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>MT-2201</td>
+                                            <td>Fan Motor 1/2HP</td>
+                                            <td>145 Units</td>
+                                            <td><span class="badge success">Healthy</span></td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>CL-8800</td>
+                                            <td>Coil Assembly</td>
+                                            <td>450 Units</td>
+                                            <td><span class="badge warning">Overstock</span></td>
+                                            <td><button
+                                                    style="background: var(--glass-bg); border: 1px solid var(--glass-border); color: var(--text-primary); padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer;">Promo</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>TH-1001</td>
+                                            <td>Smart Thermostat</td>
+                                            <td>85 Units</td>
+                                            <td><span class="badge success">Healthy</span></td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -466,61 +538,85 @@
                     <!-- View: Supplier Risk -->
                     <div id="view-supplier-risk" class="view-section">
                         <div class="dashboard-grid">
-                            <!-- Container Tracking -->
                             <div class="glass-panel wide">
                                 <div class="panel-header">
-                                    <h3><i class="fa-solid fa-ship"></i> Container Tracking</h3>
+                                    <h3><i class="fa-solid fa-truck-field"></i> Supplier Risk Control Tower</h3>
+                                    <span class="badge warning">Risk Level: Elevated</span>
                                 </div>
-                                <div id="containerSummary"></div>
-                                <table class="data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Container ID</th>
-                                            <th>Vendor</th>
-                                            <th>Origin Port</th>
-                                            <th>Destination</th>
-                                            <th>Status</th>
-                                            <th>ETA</th>
-                                            <th>Delay</th>
-                                            <th>Critical SKUs</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="containerTrackingTable"></tbody>
-                                </table>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                    <div
+                                        style="height: 200px; background: rgba(0,0,0,0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px dashed var(--glass-border);">
+                                        <div style="text-align: center; opacity: 0.7;">
+                                            <i class="fa-solid fa-earth-americas fa-3x"
+                                                style="margin-bottom: 1rem; color: var(--text-primary);"></i>
+                                            <p>Global Supply Chain Map</p>
+                                        </div>
+                                    </div>
+                                    <div class="risk-alerts">
+                                        <h4 style="margin-bottom: 0.5rem;">Active Alerts</h4>
+                                        <div class="alert-item"
+                                            style="background: rgba(239, 68, 68, 0.1); padding: 0.8rem; border-radius: 6px; margin-bottom: 0.5rem; border-left: 3px solid var(--danger);">
+                                            <i class="fa-solid fa-triangle-exclamation danger"></i>
+                                            <span style="margin-left: 0.5rem;"><strong>Copeland:</strong> Production
+                                                delay at Mexico plant (2 weeks impact)</span>
+                                        </div>
+                                        <div class="alert-item"
+                                            style="background: rgba(245, 158, 11, 0.1); padding: 0.8rem; border-radius: 6px; border-left: 3px solid var(--warning);">
+                                            <i class="fa-solid fa-clock warning"></i>
+                                            <span style="margin-left: 0.5rem;"><strong>Logistics:</strong> Port
+                                                congestion in LA/LB increasing lead times by 4 days</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-
-                            <!-- Warranty Alerts -->
-                            <div class="glass-panel wide">
+                            <div class="glass-panel">
                                 <div class="panel-header">
-                                    <h3><i class="fa-solid fa-triangle-exclamation"></i> Warranty Alerts</h3>
+                                    <h3>Supplier Scorecard</h3>
                                 </div>
-                                <div id="warrantyAlertsSummary"></div>
                                 <table class="data-table">
                                     <thead>
                                         <tr>
-                                            <th>Date</th>
-                                            <th>Vendor</th>
-                                            <th>SKU</th>
-                                            <th>Product Family</th>
-                                            <th>Current Rate</th>
-                                            <th>Baseline</th>
-                                            <th>Spike</th>
-                                            <th>Impact</th>
-                                            <th>Exposure</th>
-                                            <th>Action</th>
+                                            <th>Supplier</th>
+                                            <th>OTIF</th>
+                                            <th>Risk</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="warrantyAlertsTable"></tbody>
+                                    <tbody>
+                                        <tr>
+                                            <td>Copeland</td>
+                                            <td>88%</td>
+                                            <td><span class="dot warning"></span> Med</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Carrier</td>
+                                            <td>96%</td>
+                                            <td><span class="dot online"></span> Low</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Genteq</td>
+                                            <td>92%</td>
+                                            <td><span class="dot online"></span> Low</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Honeywell</td>
+                                            <td>95%</td>
+                                            <td><span class="dot online"></span> Low</td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    <script src="js/data.js"></script>
-                    <script src="js/app.js"></script>
-                    <script src="js/network-map.js"></script>
-                    <script src="js/inventory-supplier-data.js"></script>
-                    <script src="js/inventory-features.js"></script>
-                    <script src="js/supplier-risk-features.js"></script>
+
+                </main>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/data.js"></script>
+    <!-- <script src="js/extended-data.js"></script> -->
+    <script src="js/app.js"></script>
+    <script src="js/network-map.js"></script>
 </body>
 
 </html>
