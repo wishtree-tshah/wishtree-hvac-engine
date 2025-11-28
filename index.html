@@ -398,11 +398,130 @@
                             </div>
                         </div>
                     </div>
+                    <!-- View: Inventory Optimization -->
+                    <div id="view-inventory" class="view-section">
+                        <div class="dashboard-grid">
+                            <!-- Pre-Season Build -->
+                            <div class="glass-panel wide">
+                                <div class="panel-header">
+                                    <h3><i class="fa-solid fa-warehouse"></i> Pre-Season Build Status</h3>
+                                    <span class="badge">Cooling Season</span>
+                                </div>
+                                <div id="preSeasonGrid" class="preseason-grid"></div>
+                            </div>
 
+                            <!-- Hub-Spoke -->
+                            <div class="glass-panel wide">
+                                <div class="panel-header">
+                                    <h3><i class="fa-solid fa-network-wired"></i> Hub-and-Spoke Optimization</h3>
+                                </div>
+                                <div class="hub-spoke-container">
+                                    <div id="hubSpokeSvg"></div>
+                                    <div>
+                                        <h4>Suggested Rebalancing</h4>
+                                        <table class="data-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Route</th>
+                                                    <th>Units</th>
+                                                    <th>Product</th>
+                                                    <th>Reason</th>
+                                                    <th>Priority</th>
+                                                    <th>ETA</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="rebalancingTable"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Dead Stock -->
+                            <div class="glass-panel wide">
+                                <div class="panel-header">
+                                    <h3><i class="fa-solid fa-skull-crossbones"></i> Dead Stock Risk Tracker</h3>
+                                </div>
+                                <div id="deadStockSummary"></div>
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Branch</th>
+                                            <th>SKU</th>
+                                            <th>Description</th>
+                                            <th>Refrigerant</th>
+                                            <th>Last Sale</th>
+                                            <th>Months</th>
+                                            <th>Units</th>
+                                            <th>Value</th>
+                                            <th>Action</th>
+                                            <th>Reason</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="deadStockTable"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- View: Supplier Risk -->
+                    <div id="view-supplier-risk" class="view-section">
+                        <div class="dashboard-grid">
+                            <!-- Container Tracking -->
+                            <div class="glass-panel wide">
+                                <div class="panel-header">
+                                    <h3><i class="fa-solid fa-ship"></i> Container Tracking</h3>
+                                </div>
+                                <div id="containerSummary"></div>
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Container ID</th>
+                                            <th>Vendor</th>
+                                            <th>Origin Port</th>
+                                            <th>Destination</th>
+                                            <th>Status</th>
+                                            <th>ETA</th>
+                                            <th>Delay</th>
+                                            <th>Critical SKUs</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="containerTrackingTable"></tbody>
+                                </table>
+                            </div>
+
+                            <!-- Warranty Alerts -->
+                            <div class="glass-panel wide">
+                                <div class="panel-header">
+                                    <h3><i class="fa-solid fa-triangle-exclamation"></i> Warranty Alerts</h3>
+                                </div>
+                                <div id="warrantyAlertsSummary"></div>
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Vendor</th>
+                                            <th>SKU</th>
+                                            <th>Product Family</th>
+                                            <th>Current Rate</th>
+                                            <th>Baseline</th>
+                                            <th>Spike</th>
+                                            <th>Impact</th>
+                                            <th>Exposure</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="warrantyAlertsTable"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                     <script src="js/data.js"></script>
                     <script src="js/extended-data.js"></script>
                     <script src="js/app.js"></script>
                     <script src="js/network-map.js"></script>
+                    <script src="js/inventory-supplier-data.js"></script>
+                    <script src="js/inventory-features.js"></script>
+                    <script src="js/supplier-risk-features.js"></script>
 </body>
 
 </html>

@@ -47,6 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (typeof initNetworkMapEnhancements === 'function') {
                     initNetworkMapEnhancements();
                 }
+                // Initialize Inventory & Supplier Risk Features
+                if (typeof initInventoryFeatures === 'function') {
+                    initInventoryFeatures();
+                }
+                if (typeof initSupplierRiskFeatures === 'function') {
+                    initSupplierRiskFeatures();
+                }
             } catch (error) {
                 console.error('Initialization error:', error);
             }
@@ -169,235 +176,246 @@ document.addEventListener('DOMContentLoaded', () => {
                             updateTransferCorridorsTable(this.currentScenario);
                         }
                     }
-                }
-            } catch (error) {
-                console.error('Navigation error:', error);
-            }
-        },
 
-        switchScenario(scenario) {
-            try {
-                if (this.currentScenario === scenario) return;
-                this.currentScenario = scenario;
-
-                // Update Buttons
-                this.elements.scenarioBtns.forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.scenario === scenario);
-                });
-
-                // Update Data & Charts
-                this.updateDashboardData(scenario);
-                this.updateCharts(scenario);
-                this.updateMapStatus(scenario);
-                // Update Network Map features for new scenario
-                if (typeof renderTransferCorridors === 'function') {
-                    renderTransferCorridors(scenario);
-                }
-                if (typeof updateTransferCorridorsTable === 'function') {
-                    updateTransferCorridorsTable(scenario);
-                }
-            } catch (error) {
-                console.error('Scenario switch error:', error);
-            }
-        },
-
-        updateDashboardData(scenario) {
-            try {
-                const data = SIMULATION_DATA.scenarios[scenario];
-                if (!data) return;
-
-                // Update KPIs
-                this.updateKPI('accuracy', data.kpis.accuracy);
-                this.updateKPI('service', data.kpis.service);
-                this.updateKPI('inventory', data.kpis.inventory);
-                this.updateKPI('exceptions', data.kpis.exceptions);
-
-                // Update Feed
-                if (this.elements.dashboardFeed) {
-                    this.elements.dashboardFeed.innerHTML = '';
-                    data.feed.forEach(item => {
-                        const div = document.createElement('div');
-                        div.className = 'activity-item';
-                        div.innerHTML = `<span class="activity-time">${item.time}</span><span class="activity-text">${item.text}</span>`;
-                        this.elements.dashboardFeed.appendChild(div);
-                    });
-                }
-            } catch (error) {
-                console.error('Dashboard data update error:', error);
-            }
-        },
-
-        updateKPI(id, data) {
-            try {
-                const el = document.getElementById(`kpi-${id}`);
-                if (!el) return;
-
-                const trendEl = el.nextElementSibling;
-
-                // Animate Value
-                el.style.opacity = 0;
-                setTimeout(() => {
-                    el.textContent = data.value;
-                    el.className = `kpi-value ${id === 'exceptions' && this.currentScenario === 'weather' ? 'warning' : ''}`;
-                    el.style.opacity = 1;
-                }, 200);
-
-                // Update Trend
-                if (trendEl) {
-                    trendEl.className = `kpi-trend ${data.trend}`;
-                    const icon = data.trend === 'positive' ? 'up' : (data.trend === 'negative' ? 'down' : 'minus');
-                    trendEl.innerHTML = `<i class="fa-solid fa-arrow-${icon}"></i> ${data.diff}`;
-                }
-            } catch (error) {
-                console.error('KPI update error:', error);
-            }
-        },
-
-        renderCharts(scenario) {
-            try {
-                const data = SIMULATION_DATA.scenarios[scenario]?.charts;
-                if (!data) return;
-
-                // Demand Chart
-                const demandCanvas = document.getElementById('demandChart');
-                if (demandCanvas) {
-                    const ctxDemand = demandCanvas.getContext('2d');
-                    this.charts.demand = new Chart(ctxDemand, {
-                        type: 'line',
-                        data: {
-                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                            datasets: [{
-                                label: 'Demand Forecast',
-                                data: data.demand.demand,
-                                borderColor: '#3b82f6',
-                                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                                tension: 0.4,
-                                fill: true
-                            }, {
-                                label: 'Supply Plan',
-                                data: data.demand.supply,
-                                borderColor: '#10b981',
-                                backgroundColor: 'rgba(16, 185, 129, 0.05)',
-                                borderDash: [5, 5],
-                                tension: 0.4
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: { legend: { labels: { color: '#94a3b8' } } },
-                            scales: {
-                                y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } },
-                                x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
-                            },
-                            animation: { duration: 1000 }
+                    // Initialize Inventory & Supplier Risk features when switching to view
+                    if (viewId === 'inventory') {
+                        if (typeof initInventoryFeatures === 'function') {
+                            initInventoryFeatures();
                         }
-                    });
-                }
-
-                // Inventory Chart
-                const inventoryCanvas = document.getElementById('inventoryChart');
-                if (inventoryCanvas) {
-                    const ctxInventory = inventoryCanvas.getContext('2d');
-                    this.charts.inventory = new Chart(ctxInventory, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Austin', 'Dallas', 'Houston', 'Miami', 'New York'],
-                            datasets: [{
-                                label: 'Stock Level',
-                                data: data.inventory.data,
-                                backgroundColor: data.inventory.colors,
-                                borderRadius: 4
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: { legend: { display: false } },
-                            scales: {
-                                y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } },
-                                x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
-                            },
-                            animation: { duration: 1000 }
+                    }
+                    if (viewId === 'supplier-risk') {
+                        if (typeof initSupplierRiskFeatures === 'function') {
+                            initSupplierRiskFeatures();
                         }
+                    }
+                } catch (error) {
+                    console.error('Navigation error:', error);
+                }
+            },
+
+            switchScenario(scenario) {
+                try {
+                    if (this.currentScenario === scenario) return;
+                    this.currentScenario = scenario;
+
+                    // Update Buttons
+                    this.elements.scenarioBtns.forEach(btn => {
+                        btn.classList.toggle('active', btn.dataset.scenario === scenario);
                     });
+
+                    // Update Data & Charts
+                    this.updateDashboardData(scenario);
+                    this.updateCharts(scenario);
+                    this.updateMapStatus(scenario);
+                    // Update Network Map features for new scenario
+                    if (typeof renderTransferCorridors === 'function') {
+                        renderTransferCorridors(scenario);
+                    }
+                    if (typeof updateTransferCorridorsTable === 'function') {
+                        updateTransferCorridorsTable(scenario);
+                    }
+                } catch (error) {
+                    console.error('Scenario switch error:', error);
                 }
-            } catch (error) {
-                console.error('Chart rendering error:', error);
-            }
-        },
+            },
 
-        updateCharts(scenario) {
-            try {
-                const data = SIMULATION_DATA.scenarios[scenario]?.charts;
-                if (!data) return;
+            updateDashboardData(scenario) {
+                try {
+                    const data = SIMULATION_DATA.scenarios[scenario];
+                    if (!data) return;
 
-                // Update Demand Chart
-                if (this.charts.demand) {
-                    this.charts.demand.data.datasets[0].data = data.demand.demand;
-                    this.charts.demand.data.datasets[1].data = data.demand.supply;
-                    this.charts.demand.update();
+                    // Update KPIs
+                    this.updateKPI('accuracy', data.kpis.accuracy);
+                    this.updateKPI('service', data.kpis.service);
+                    this.updateKPI('inventory', data.kpis.inventory);
+                    this.updateKPI('exceptions', data.kpis.exceptions);
+
+                    // Update Feed
+                    if (this.elements.dashboardFeed) {
+                        this.elements.dashboardFeed.innerHTML = '';
+                        data.feed.forEach(item => {
+                            const div = document.createElement('div');
+                            div.className = 'activity-item';
+                            div.innerHTML = `<span class="activity-time">${item.time}</span><span class="activity-text">${item.text}</span>`;
+                            this.elements.dashboardFeed.appendChild(div);
+                        });
+                    }
+                } catch (error) {
+                    console.error('Dashboard data update error:', error);
                 }
+            },
 
-                // Update Inventory Chart
-                if (this.charts.inventory) {
-                    this.charts.inventory.data.datasets[0].data = data.inventory.data;
-                    this.charts.inventory.data.datasets[0].backgroundColor = data.inventory.colors;
-                    this.charts.inventory.update();
+            updateKPI(id, data) {
+                try {
+                    const el = document.getElementById(`kpi-${id}`);
+                    if (!el) return;
+
+                    const trendEl = el.nextElementSibling;
+
+                    // Animate Value
+                    el.style.opacity = 0;
+                    setTimeout(() => {
+                        el.textContent = data.value;
+                        el.className = `kpi-value ${id === 'exceptions' && this.currentScenario === 'weather' ? 'warning' : ''}`;
+                        el.style.opacity = 1;
+                    }, 200);
+
+                    // Update Trend
+                    if (trendEl) {
+                        trendEl.className = `kpi-trend ${data.trend}`;
+                        const icon = data.trend === 'positive' ? 'up' : (data.trend === 'negative' ? 'down' : 'minus');
+                        trendEl.innerHTML = `<i class="fa-solid fa-arrow-${icon}"></i> ${data.diff}`;
+                    }
+                } catch (error) {
+                    console.error('KPI update error:', error);
                 }
-            } catch (error) {
-                console.error('Chart update error:', error);
-            }
-        },
+            },
 
-        updateChartPeriod(e) {
-            try {
-                const btn = e.target;
-                const period = btn.dataset.period;
-                if (!period) return;
+            renderCharts(scenario) {
+                try {
+                    const data = SIMULATION_DATA.scenarios[scenario]?.charts;
+                    if (!data) return;
 
-                // Update UI
-                document.querySelectorAll('.icon-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+                    // Demand Chart
+                    const demandCanvas = document.getElementById('demandChart');
+                    if (demandCanvas) {
+                        const ctxDemand = demandCanvas.getContext('2d');
+                        this.charts.demand = new Chart(ctxDemand, {
+                            type: 'line',
+                            data: {
+                                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                                datasets: [{
+                                    label: 'Demand Forecast',
+                                    data: data.demand.demand,
+                                    borderColor: '#3b82f6',
+                                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                                    tension: 0.4,
+                                    fill: true
+                                }, {
+                                    label: 'Supply Plan',
+                                    data: data.demand.supply,
+                                    borderColor: '#10b981',
+                                    backgroundColor: 'rgba(16, 185, 129, 0.05)',
+                                    borderDash: [5, 5],
+                                    tension: 0.4
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { labels: { color: '#94a3b8' } } },
+                                scales: {
+                                    y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } },
+                                    x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                                },
+                                animation: { duration: 1000 }
+                            }
+                        });
+                    }
 
-                this.currentPeriod = period;
-
-                const baseData = SIMULATION_DATA.scenarios[this.currentScenario]?.charts?.demand;
-                if (!baseData) return;
-
-                let newDataDemand, newDataSupply, newLabels;
-
-                if (period === 'W') {
-                    newLabels = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'];
-                    newDataDemand = baseData.demand;
-                    newDataSupply = baseData.supply;
-                } else if (period === 'M') {
-                    newLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
-                    newDataDemand = baseData.demand.map(v => v * 4.2);
-                    newDataSupply = baseData.supply.map(v => v * 4.2);
-                } else if (period === 'Q') {
-                    newLabels = ['Q1', 'Q2', 'Q3', 'Q4'];
-                    newDataDemand = [15000, 18000, 16000, 21000];
-                    newDataSupply = [15500, 17500, 16500, 20000];
+                    // Inventory Chart
+                    const inventoryCanvas = document.getElementById('inventoryChart');
+                    if (inventoryCanvas) {
+                        const ctxInventory = inventoryCanvas.getContext('2d');
+                        this.charts.inventory = new Chart(ctxInventory, {
+                            type: 'bar',
+                            data: {
+                                labels: ['Austin', 'Dallas', 'Houston', 'Miami', 'New York'],
+                                datasets: [{
+                                    label: 'Stock Level',
+                                    data: data.inventory.data,
+                                    backgroundColor: data.inventory.colors,
+                                    borderRadius: 4
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: false } },
+                                scales: {
+                                    y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } },
+                                    x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                                },
+                                animation: { duration: 1000 }
+                            }
+                        });
+                    }
+                } catch (error) {
+                    console.error('Chart rendering error:', error);
                 }
+            },
 
-                if (this.charts.demand) {
-                    this.charts.demand.data.labels = newLabels;
-                    this.charts.demand.data.datasets[0].data = newDataDemand;
-                    this.charts.demand.data.datasets[1].data = newDataSupply;
-                    this.charts.demand.update();
+            updateCharts(scenario) {
+                try {
+                    const data = SIMULATION_DATA.scenarios[scenario]?.charts;
+                    if (!data) return;
+
+                    // Update Demand Chart
+                    if (this.charts.demand) {
+                        this.charts.demand.data.datasets[0].data = data.demand.demand;
+                        this.charts.demand.data.datasets[1].data = data.demand.supply;
+                        this.charts.demand.update();
+                    }
+
+                    // Update Inventory Chart
+                    if (this.charts.inventory) {
+                        this.charts.inventory.data.datasets[0].data = data.inventory.data;
+                        this.charts.inventory.data.datasets[0].backgroundColor = data.inventory.colors;
+                        this.charts.inventory.update();
+                    }
+                } catch (error) {
+                    console.error('Chart update error:', error);
                 }
-            } catch (error) {
-                console.error('Chart period update error:', error);
-            }
-        },
+            },
 
-        renderMap() {
-            try {
-                if (!this.elements.svgMapWrapper) return;
+            updateChartPeriod(e) {
+                try {
+                    const btn = e.target;
+                    const period = btn.dataset.period;
+                    if (!period) return;
 
-                const nodes = SIMULATION_DATA.mapNodes;
-                const svgContent = `
+                    // Update UI
+                    document.querySelectorAll('.icon-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    this.currentPeriod = period;
+
+                    const baseData = SIMULATION_DATA.scenarios[this.currentScenario]?.charts?.demand;
+                    if (!baseData) return;
+
+                    let newDataDemand, newDataSupply, newLabels;
+
+                    if (period === 'W') {
+                        newLabels = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'];
+                        newDataDemand = baseData.demand;
+                        newDataSupply = baseData.supply;
+                    } else if (period === 'M') {
+                        newLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+                        newDataDemand = baseData.demand.map(v => v * 4.2);
+                        newDataSupply = baseData.supply.map(v => v * 4.2);
+                    } else if (period === 'Q') {
+                        newLabels = ['Q1', 'Q2', 'Q3', 'Q4'];
+                        newDataDemand = [15000, 18000, 16000, 21000];
+                        newDataSupply = [15500, 17500, 16500, 20000];
+                    }
+
+                    if (this.charts.demand) {
+                        this.charts.demand.data.labels = newLabels;
+                        this.charts.demand.data.datasets[0].data = newDataDemand;
+                        this.charts.demand.data.datasets[1].data = newDataSupply;
+                        this.charts.demand.update();
+                    }
+                } catch (error) {
+                    console.error('Chart period update error:', error);
+                }
+            },
+
+            renderMap() {
+                try {
+                    if (!this.elements.svgMapWrapper) return;
+
+                    const nodes = SIMULATION_DATA.mapNodes;
+                    const svgContent = `
                     <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
                         <!-- US Map Outline -->
                         <path d="M10,20 L30,20 L40,30 L80,25 L90,35 L85,80 L50,90 L15,80 Z" 
@@ -421,46 +439,46 @@ document.addEventListener('DOMContentLoaded', () => {
                         `).join('')}
                     </svg>
                 `;
-                this.elements.svgMapWrapper.innerHTML = svgContent;
-            } catch (error) {
-                console.error('Map rendering error:', error);
+                    this.elements.svgMapWrapper.innerHTML = svgContent;
+                } catch (error) {
+                    console.error('Map rendering error:', error);
+                }
+            },
+
+            updateMapStatus(scenario) {
+                try {
+                    const nodes = SIMULATION_DATA.mapNodes;
+                    nodes.forEach(node => {
+                        let status = 'online';
+                        if (scenario === 'weather' && (node.id === 'houston' || node.id === 'miami')) {
+                            status = 'danger';
+                        }
+
+                        const nodeEl = document.getElementById(`node-${node.id}`);
+                        if (nodeEl) {
+                            const dot = nodeEl.querySelector('.node-dot');
+                            const pulse = nodeEl.querySelector('.node-pulse');
+                            const color = this.getNodeColor(status);
+
+                            if (dot) dot.setAttribute('fill', color);
+                            if (pulse) pulse.setAttribute('stroke', color);
+                        }
+                    });
+                } catch (error) {
+                    console.error('Map status update error:', error);
+                }
+            },
+
+            getNodeColor(status) {
+                if (status === 'danger') return '#ef4444';
+                if (status === 'warning') return '#f59e0b';
+                return '#10b981';
+            },
+
+            wait(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
             }
-        },
+        };
 
-        updateMapStatus(scenario) {
-            try {
-                const nodes = SIMULATION_DATA.mapNodes;
-                nodes.forEach(node => {
-                    let status = 'online';
-                    if (scenario === 'weather' && (node.id === 'houston' || node.id === 'miami')) {
-                        status = 'danger';
-                    }
-
-                    const nodeEl = document.getElementById(`node-${node.id}`);
-                    if (nodeEl) {
-                        const dot = nodeEl.querySelector('.node-dot');
-                        const pulse = nodeEl.querySelector('.node-pulse');
-                        const color = this.getNodeColor(status);
-
-                        if (dot) dot.setAttribute('fill', color);
-                        if (pulse) pulse.setAttribute('stroke', color);
-                    }
-                });
-            } catch (error) {
-                console.error('Map status update error:', error);
-            }
-        },
-
-        getNodeColor(status) {
-            if (status === 'danger') return '#ef4444';
-            if (status === 'warning') return '#f59e0b';
-            return '#10b981';
-        },
-
-        wait(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-    };
-
-    app.init();
-});
+        app.init();
+    });
