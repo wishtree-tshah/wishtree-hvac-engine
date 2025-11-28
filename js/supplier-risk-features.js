@@ -174,7 +174,7 @@ function filterContainers(filterType) {
 
 // ===== INITIALIZATION =====
 
-function init SupplierRiskFeatures() {
+function initSupplierRiskFeatures() {
     try {
         renderContainerTracking();
         renderWarrantyAlerts();
