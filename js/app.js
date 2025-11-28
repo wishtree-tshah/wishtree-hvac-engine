@@ -43,6 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.querySelectorAll('.icon-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => this.updateChartPeriod(e));
                 });
+                // Initialize Network Map Enhancements
+                if (typeof initNetworkMapEnhancements === 'function') {
+                    initNetworkMapEnhancements();
+                }
             } catch (error) {
                 console.error('Initialization error:', error);
             }
@@ -150,10 +154,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 target.classList.add('active');
 
                 // Update View
+
                 this.elements.views.forEach(view => view.classList.remove('active'));
                 const targetView = document.getElementById(`view-${viewId}`);
                 if (targetView) {
                     targetView.classList.add('active');
+                    // Initialize Network Map features when switching to map view
+                    if (viewId === 'network-map') {
+                        this.renderMap();
+                        if (typeof renderTransferCorridors === 'function') {
+                            renderTransferCorridors(this.currentScenario);
+                        }
+                        if (typeof updateTransferCorridorsTable === 'function') {
+                            updateTransferCorridorsTable(this.currentScenario);
+                        }
+                    }
                 }
             } catch (error) {
                 console.error('Navigation error:', error);
@@ -174,6 +189,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.updateDashboardData(scenario);
                 this.updateCharts(scenario);
                 this.updateMapStatus(scenario);
+                // Update Network Map features for new scenario
+                if (typeof renderTransferCorridors === 'function') {
+                    renderTransferCorridors(scenario);
+                }
+                if (typeof updateTransferCorridorsTable === 'function') {
+                    updateTransferCorridorsTable(scenario);
+                }
             } catch (error) {
                 console.error('Scenario switch error:', error);
             }

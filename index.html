@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Wishtree Data Integrity & Demand Planning Engine</title>
+    <link rel="stylesheet" href="css/network-map.css">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -335,52 +336,72 @@
 
                     <!-- View: Network Map -->
                     <div id="view-network-map" class="view-section">
-                        <div class="glass-panel map-container">
-                            <div class="map-overlay">
-                                <h3>Network Status</h3>
-                                <div class="map-legend">
-                                    <span class="legend-item"><span class="dot online"></span> Normal</span>
-                                    <span class="legend-item"><span class="dot warning"></span> Risk</span>
-                                    <span class="legend-item"><span class="dot danger"></span> Critical</span>
+                        <div class="dashboard-grid">
+                            <!-- Map Panel -->
+                            <div class="glass-panel map-container-panel">
+                                <div class="map-controls-bar">
+                                    <h3>Distribution Network</h3>
+                                    <div class="map-toggles">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="weatherOverlayToggle">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                        <span class="toggle-label">Weather Overlay</span>
+
+                                        <label class="toggle-switch" style="margin-left: 1.5rem;">
+                                            <input type="checkbox" id="transferCorridorsToggle" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                        <span class="toggle-label">Transfer Corridors</span>
+                                    </div>
+                                </div>
+
+                                <div class="map-container">
+                                    <div class="map-overlay-info">
+                                        <div class="map-legend">
+                                            <span class="legend-item"><span class="dot online"></span> Normal</span>
+                                            <span class="legend-item"><span class="dot warning"></span> Risk</span>
+                                            <span class="legend-item"><span class="dot danger"></span> Critical</span>
+                                        </div>
+                                        <div id="weatherOverlayInfo" class="weather-overlay-info"
+                                            style="display: none;">
+                                            <!-- Weather zones populated by JS -->
+                                        </div>
+                                    </div>
+                                    <div id="svg-map-wrapper">
+                                        <!-- SVG Map will be injected here -->
+                                    </div>
                                 </div>
                             </div>
-                            <div id="svg-map-wrapper">
-                                <!-- SVG Map will be injected here -->
+
+                            <!-- Transfer Corridors Table -->
+                            <div class="glass-panel transfer-corridors-panel">
+                                <div class="panel-header">
+                                    <h3>Top Transfer Corridors</h3>
+                                    <span class="badge">Real-time</span>
+                                </div>
+                                <table class="data-table transfer-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Route</th>
+                                            <th>Units/Mo</th>
+                                            <th>Avg Days</th>
+                                            <th>Top Products</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="transferCorridorsTable">
+                                        <!-- Populated by JavaScript -->
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Placeholders for other views -->
-                    <div id="view-demand-ai" class="view-section">
-                        <div class="glass-panel full-center">
-                            <i class="fa-solid fa-brain fa-3x"></i>
-                            <h2>Demand AI Module</h2>
-                            <p>Advanced forecasting models and confidence bands.</p>
-                        </div>
-                    </div>
-                    <div id="view-inventory" class="view-section">
-                        <div class="glass-panel full-center">
-                            <i class="fa-solid fa-boxes-stacked fa-3x"></i>
-                            <h2>Inventory Optimization</h2>
-                            <p>Safety stock violations and rebalancing engine.</p>
-                        </div>
-                    </div>
-                    <div id="view-supplier-risk" class="view-section">
-                        <div class="glass-panel full-center">
-                            <i class="fa-solid fa-truck-field fa-3x"></i>
-                            <h2>Supplier Risk</h2>
-                            <p>OTIF performance and lead time analysis.</p>
-                        </div>
-                    </div>
-
-                </main>
-            </div>
-        </section>
-    </div>
-
-    <script src="js/data.js"></script>
-    <script src="js/extended-data.js"></script>
-    <script src="js/app.js"></script>
+                    <script src="js/data.js"></script>
+                    <script src="js/extended-data.js"></script>
+                    <script src="js/app.js"></script>
+                    <script src="js/network-map.js"></script>
 </body>
 
 </html>
